@@ -1,5 +1,6 @@
 package com.newland.common.utils;
 
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,6 +17,7 @@ import java.net.URLEncoder;
  * @author li
  * @time 2018/8/5
  */
+@Slf4j
 public final class CookieUtils {
 
 	protected static final Logger logger = LoggerFactory.getLogger(CookieUtils.class);

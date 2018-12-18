@@ -1,5 +1,7 @@
 package com.newland.item.web;
 
+import com.newland.common.enums.ExceptionEnums;
+import com.newland.common.exception.LyException;
 import com.newland.item.pojo.Item;
 import com.newland.item.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +22,7 @@ public class ItemController {
     public ResponseEntity<Item> saveIte(Item item){
         // 校验价格
         if(item.getPrice()==null){
-            throw new RuntimeException("价格不能为空");
+         throw new LyException(ExceptionEnums.PRICE_CANNOT_BE_NULL);
         }
         return ResponseEntity.status(HttpStatus.CREATED).body(itemService.saveItem(item));
     }
