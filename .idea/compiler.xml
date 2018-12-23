@@ -13,6 +13,7 @@
         <module name="ly-register" />
         <module name="lyiteminterface" />
         <module name="lyitemservice" />
+        <module name="lyupload" />
       </profile>
     </annotationProcessing>
   </component>
@@ -23,6 +24,7 @@
       <module name="ly-item-interface" options="-parameters" />
       <module name="ly-item-service" options="-parameters" />
       <module name="ly-register" options="-parameters" />
+      <module name="lyupload" options="-parameters" />
     </option>
   </component>
 </project>
