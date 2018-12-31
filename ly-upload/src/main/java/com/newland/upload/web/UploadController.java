@@ -19,7 +19,7 @@ public class UploadController {
     @PostMapping("image")
     public ResponseEntity<String> uploadImage(@RequestParam("file") MultipartFile file){
         System.out.println("进来");
-       String path = uploadService.uploadService(file);
-       return ResponseEntity.ok(path);
+        String path = uploadService.uploadService(file);
+        return ResponseEntity.ok(path);
     }
 }

@@ -67,4 +67,12 @@ public class BrandServiceIpml {
             }
         }
     }
+
+    public Brand queryById(Long id){
+        Brand brand = brandMapper.selectByPrimaryKey(id);
+        if(brand==null){
+            throw new LyException(ExceptionEnums.BRAND_NOT_FOUND);
+        }
+        return brand;
+    }
 }

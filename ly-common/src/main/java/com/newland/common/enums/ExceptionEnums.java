@@ -10,8 +10,11 @@ public enum ExceptionEnums {
     CATEGOTY_NOT_FOUND(404, "商品分类不存在"),
     BRAND_NOT_FOUND(404, "商品品牌不存在"),
     INVALID_FILE_TYPE(404,"文件类型不支持"),
+    GOOD_NOT_FOND(404,"商品不存在"),
     BRAND_BRAND_SAVE_ERROR(500,"新增品牌分类中间表失败"),
     UPLOAD_FILE_EXCEPTION(500,"文件上传失败"),
+    SPEC_GROUP_NOT_FOND(404,"商品规格组不存在"),
+    SPEC_PARAM_NOT_FOND(404,"商品规格参数不存在"),
     BRAND_SAVE_ERROR(500,"新增品牌失败");
     private String message;
     private Integer code;

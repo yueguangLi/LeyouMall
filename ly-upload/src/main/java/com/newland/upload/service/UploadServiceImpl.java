@@ -1,12 +1,17 @@
 package com.newland.upload.service;
 
+import com.github.tobato.fastdfs.domain.StorePath;
+import com.github.tobato.fastdfs.service.FastFileStorageClient;
 import com.newland.common.enums.ExceptionEnums;
 import com.newland.common.exception.LyException;
+import com.newland.upload.config.UploadProperties;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -16,11 +21,15 @@ import java.util.List;
 
 
 @Service
-
+@EnableConfigurationProperties(UploadProperties.class)
 public class UploadServiceImpl {
 
-    private static final List<String> allowTypes = Arrays.asList("image/jpeg","image/png","image/bmp");
+    @Autowired
+    private FastFileStorageClient storageClient;
+    // private static final List<String> allowTypes = Arrays.asList("image/jpeg","image/png","image/bmp");
 
+    @Autowired
+    private UploadProperties prop;
     private static Logger log = LoggerFactory.getLogger(UploadServiceImpl.class);
     /**
      * 文件上传
@@ -30,7 +39,7 @@ public class UploadServiceImpl {
     public String uploadService(MultipartFile file){
         // 校验文件类型
         String contentType = file.getContentType();
-        if(!allowTypes.contains(contentType)){
+        if(!prop.getAllowType().contains(contentType)){
             throw new LyException(ExceptionEnums.INVALID_FILE_TYPE);
         }
         // 校验文件内容
@@ -47,15 +56,16 @@ public class UploadServiceImpl {
 
         // 准备目标路径
         String pathName;
-        File dest = new File("D:/"+file.getOriginalFilename());
-        // 保存文件到本地
+        // File dest = new File("D:/"+file.getOriginalFilename());
         try {
-            file.transferTo(dest);
-            return dest.getAbsolutePath();
-        } catch (IOException e) {
+            String extension = StringUtils.substringAfterLast(file.getOriginalFilename(),".");
+            StorePath storePath = storageClient.uploadFile(file.getInputStream(), file.getSize(), extension, null);
+            // 保存文件到本地
+            return prop.getBaseUrl()+storePath.getFullPath();
+        } catch (Exception e) {
             e.printStackTrace();
             //上传失败
-            log.error("上传文件失败",e);
+            log.error("[文件上传]上传文件失败",e);
             throw new LyException(ExceptionEnums.UPLOAD_FILE_EXCEPTION);
         }
         // 返回路径
